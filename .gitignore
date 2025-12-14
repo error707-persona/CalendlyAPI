@@ -50,7 +50,7 @@ Thumbs.db
 src/main/resources/application-local.properties
 src/main/resources/application.properties
 target/classes/application.properties
-node_modules/
+node_modules
 
 # Spring Boot config files
 *.key
