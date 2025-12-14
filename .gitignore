@@ -1,0 +1,63 @@
+# ---------------------------------------------------------------- #
+# Spring Boot / Maven / Gradle Project .gitignore
+# ---------------------------------------------------------------- #
+
+### 1. Build and Compilation Artifacts ###
+# Maven target directory
+/target/
+# Gradle build directory (if you use Gradle)
+/build/
+
+# IDE files (Eclipse/IntelliJ/VSCode)
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# Log files and cache
+*.log
+!/.gitignore  # Ensures gitignore itself is not ignored
+/logs/
+/tmp/
+
+---
+
+### 2. Operating System Files ###
+# Thumbs.db, .DS_Store, etc.
+.DS_Store
+Thumbs.db
+
+---
+
+### 3. Dependency Caches (Avoid Committing) ###
+# Maven cache directory
+/repo/
+
+---
+
+### 4. Critical: Secrets and Configuration ###
+# This is the most important section to prevent secret leakage.
+# You must use environment variables or a separate ignored file for secrets.
+
+# Local secrets file (MUST be ignored)
+.env
+.env.*
+
+# Local/Development application properties (containing tokens/passwords)
+# If you have a file *only* for secrets, list it here.
+# NOTE: If you commit application.properties, it should contain only placeholders.
+src/main/resources/application-local.properties
+src/main/resources/application.properties
+target/classes/application.properties
+node_modules/
+
+# Spring Boot config files
+*.key
+*.jks
+*.p12
+.class
+
+# Database files
+*.db
+*.sqlite

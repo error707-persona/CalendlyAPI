@@ -1,0 +1,11 @@
+
+.flex {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    border: 1px solid red;
+}
+
+.card{
+    
+}

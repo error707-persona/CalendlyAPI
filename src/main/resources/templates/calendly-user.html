@@ -1,0 +1,59 @@
+<div class="card" th:if="${user != null}">
+
+    <div class="header">
+        <img th:if="${user.get('avatar_url') != null and !user.get('avatar_url').isNull()}"
+             th:src="${user.get('avatar_url').asText()}"
+             class="avatar"/>
+
+        <h2 th:text="${user.get('name').asText()}">User Name</h2>
+        <p th:text="${user.get('email').asText()}">Email</p>
+    </div>
+
+    <div class="row">
+        <span class="label">Locale</span>
+        <span class="value" th:text="${user.get('locale').asText()}"></span>
+    </div>
+
+    <div class="row">
+        <span class="label">Timezone</span>
+        <span class="value" th:text="${user.get('timezone').asText()}"></span>
+    </div>
+
+    <div class="row">
+        <span class="label">Time Format</span>
+        <span class="value" th:text="${user.get('time_notation').asText()}"></span>
+    </div>
+
+    <div class="row">
+        <span class="label">Profile</span>
+        <span class="value">
+            <a th:href="${user.get('scheduling_url').asText()}"
+               target="_blank"
+               class="link">
+                Open Calendly
+            </a>
+        </span>
+    </div>
+
+    <div class="row">
+        <span class="label">User URI</span>
+        <span class="value">
+            <a th:href="${user.get('uri').asText()}"
+               target="_blank"
+               class="link">
+                API Resource
+            </a>
+        </span>
+    </div>
+
+    <div class="row">
+        <span class="label">Created At</span>
+        <span class="value" th:text="${user.get('created_at').asText()}"></span>
+    </div>
+
+    <div class="row">
+        <span class="label">Updated At</span>
+        <span class="value" th:text="${user.get('updated_at').asText()}"></span>
+    </div>
+
+</div>

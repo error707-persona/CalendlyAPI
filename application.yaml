@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: integration-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/integration_db
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  webflux:
+    base-path: /
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+integration:
+  api:
+    timeout-ms: 10000
+    retry-count: 2

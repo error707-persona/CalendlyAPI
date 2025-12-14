@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <title>API Integration Generator</title>
+  </head>
+  <body
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90vh;
+      width: 100vw;
+    "
+  >
+    <div style="margin: auto; width: 400px">
+      <h1 style="text-align: center">Java Assignment</h1>
+
+      <!-- Form to submit API docs URL -->
+      <form
+        method="get"
+        th:action="@{/test-api}"
+        style="display: flex; flex-direction: column; gap: 10px"
+      >
+        <!-- <label for="docsUrl">API Docs URL:</label> -->
+        <!-- <input
+          type="text"
+          id="docsUrl"
+          name="docsUrl"
+          placeholder="https://developer.example.com/api-docs"
+          style="padding: 5px"
+          required
+        /> -->
+        <label for="output">Choose External System:</label>
+
+        <select id="output" name="externalSystem" style="padding: 5px;">
+          <option value="">-- Select --</option>
+          <option value="1">Calendly</option>
+          <option value="2">Dropbox</option>
+        </select>
+
+        <button type="submit" style="padding: 5px">Generate Integration</button>
+      </form>
+
+      <!-- Optional: Show submitted URL after POST -->
+      <div
+        th:if="${url}"
+        style="margin-top: 20px; padding: 10px; border: 1px solid #ccc"
+      >
+        <strong>Submitted URL:</strong>
+        <p th:text="${url}"></p>
+      </div>
+    </div>
+    <pre id="output"></pre>
+    <span class="cursor">|</span>
+
+    <script>
+      const form = document.getElementById("genForm");
+      const output = document.getElementById("output");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault(); // 👈 stay on /
+
+        output.textContent = ""; // clear old output
+
+        const formData = new FormData(form);
+
+        // const res = await fetch("/generate", {
+        //   method: "POST",
+        //   body: formData,
+        // });
+        console.log("inside listener call");
+        const res = await fetch("/test-api/785", {
+          method: "GET",
+        });
+
+        
+
+        const text = await res.text();
+        console.log("Got response!: ", text);
+
+        // typing animation
+        let i = 0;
+        function type() {
+          if (i < text.length) {
+            output.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, 5);
+          }
+        }
+        type();
+      });
+    </script>
+  </body>
+</html>
