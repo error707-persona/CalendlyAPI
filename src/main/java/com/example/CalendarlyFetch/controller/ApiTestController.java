@@ -36,7 +36,7 @@ public class ApiTestController {
             JsonNode user = root.get("resource");
 
             model.addAttribute("user", user);
-            return "calendly-user"; // HTML file name
+            return "error-view"; // HTML file name
 
         } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
             // Handle the error: log it and return an error page/message

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Request Failed</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .error-card {
+            max-width: 500px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-left: 5px solid #dc3545; /* Red border for error */
+        }
+
+        .error-card h1 {
+            color: #dc3545; /* Bootstrap Red */
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .error-card p {
+            color: #6c757d;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .details {
+            background: #f7f7f7;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+            margin-top: 15px;
+            border: 1px dashed #ced4da;
+        }
+
+        .details strong {
+            color: #343a40;
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="error-card">
+    <h1>🚨 Request Failed!</h1>
+    <p>We encountered an error while processing the external API request.</p>
+
+    <div class="details">
+        <strong>Error Message:</strong>
+        <span th:text="${error ?: 'An unknown error occurred.'}">Default Error Message</span>
+    </div>
+    
+    <div class="details">
+        <strong>What Happened:</strong>
+        <p>This typically occurs due to an invalid JSON response format, network issue, or authentication failure with the external API.</p>
+    </div>
+
+    <a href="/" class="link">Go to Home Page</a>
+
+</div>
+
+</body>
+</html>
