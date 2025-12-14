@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,10 +24,14 @@ public class ApiTestController {
     private final ObjectMapper objectMapper;
 
     @GetMapping("/test-api")
-    public String testCall(Model model) {
-        ExternalApiEndpoint endpoint = endpointRepository.findById(3L).orElse(null);
+    public String testCall(Model model, @RequestParam("externalSystem") String externalSystemId) {
+        Long endpointId = Long.parseLong(externalSystemId);
+
+        System.out.println("Received externalSystem ID: " + externalSystemId);
+
+        ExternalApiEndpoint endpoint = endpointRepository.findById(endpointId).orElse(null);
         if (endpoint == null)
-            return "Endpoint not found";
+            return "error-view";
 
         Map<String, String> queryParams = Map.of("status", "active");
         String jsonResponse = executorService.callApi(endpoint, queryParams, null);
@@ -36,7 +41,7 @@ public class ApiTestController {
             JsonNode user = root.get("resource");
 
             model.addAttribute("user", user);
-            return "error-view"; // HTML file name
+            return "calendly-user"; // HTML file name
 
         } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
             // Handle the error: log it and return an error page/message

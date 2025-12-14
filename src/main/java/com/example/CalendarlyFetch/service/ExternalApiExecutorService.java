@@ -3,8 +3,13 @@ package com.example.CalendarlyFetch.service;
 import com.example.CalendarlyFetch.entity.ApiActivityLog;
 import com.example.CalendarlyFetch.entity.ExternalApiEndpoint;
 import com.example.CalendarlyFetch.entity.ExternalAuthConfig;
+import com.example.CalendarlyFetch.entity.InternalUserTemp;
 import com.example.CalendarlyFetch.repository.ApiActivityLogRepository;
 import com.example.CalendarlyFetch.repository.ExternalAuthConfigRepository;
+import com.example.CalendarlyFetch.repository.InternalUserTempRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -25,6 +30,8 @@ public class ExternalApiExecutorService {
         private final ExternalAuthConfigRepository authConfigRepository;
         private final WebClient.Builder webClientBuilder;
         private final ApiActivityLogRepository apiActivityLogRepository;
+        private final InternalUserTempRepository internalUserTempRepository;
+        ObjectMapper objectMapper = new ObjectMapper();
         UUID newUuidObject = UUID.randomUUID();
 
         /**
@@ -100,8 +107,23 @@ public class ExternalApiExecutorService {
                         log.setSuccessFlag(true);
                         log.setCreatedAt(LocalDateTime.now());
 
-                        // Use the new repository instance to save
+                        
                         apiActivityLogRepository.save(log);
+                        System.out.print("main response: "+responseMono.block());
+                        JsonNode rootNode = objectMapper.readTree(responseMono.block());
+
+                        
+                        JsonNode resourceNode = rootNode.get("resource");
+                        InternalUserTemp userResp = new InternalUserTemp(); // Instantiate the new entity
+                        userResp.setFullName(resourceNode.get("name").asText());
+                        userResp.setRawPayload(responseMono.block());
+                        userResp.setExternalSystemId(apiEndpoint.getExternalSystem().getId());
+                        userResp.setSyncedAt(LocalDateTime.now()); 
+                        userResp.setEmail(resourceNode.get("email").asText()); 
+                        userResp.setExternalUserId(resourceNode.get("slug").asText());
+                        
+                        internalUserTempRepository.save(userResp);
+
 
                         return responseMono.block();
                 } catch (Exception e) {
@@ -118,7 +140,7 @@ public class ExternalApiExecutorService {
                         log.setErrorMessage(e.toString());
                         apiActivityLogRepository.save(log);
 
-                        return "error";
+                        return "error-view";
 
                 }
 
