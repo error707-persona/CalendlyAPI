@@ -26,6 +26,15 @@ public class ExternalApiEndpoint {
 
     private String endpointName;
 
+    @Column(nullable = false)
+    private String requestContentType;
+
+    @Column(nullable = false)
+    private String responseContentType;
+
+    @Column(nullable = false)
+    private String headerName;
+
     @Enumerated(EnumType.STRING)
     private HttpMethodType httpMethod;
 

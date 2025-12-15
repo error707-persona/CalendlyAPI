@@ -20,8 +20,9 @@ public class ExternalAuthConfig {
     @JoinColumn(name = "external_system_id", nullable = false)
     private ExternalSystem externalSystem;
 
-    private String authHeaderName; // Authorization, X-API-KEY
-    private String authPrefix; // Bearer, Basic
+    private String authHeaderName; 
+    private String authPrefix; 
+    private String systemId; 
 
     @Column(length = 2000)
     private String apiKey;
